@@ -273,7 +273,7 @@ function addEterMenu() {
     add_submenu_page('eter-ios-mobile-options', 'ETER Startpage', 'ETER Startpage', 'manage_options', 'eter-ios-mobile-options' );
     add_submenu_page('eter-ios-mobile-options', 'ETER Courses', 'ETER Courses', 0, 'eter-courses', 'eterCourses' );
     add_submenu_page('eter-ios-mobile-options', 'ETER Licences', 'ETER Licences', 0, 'eter-Licences', 'eterLicences' );
-    add_submenu_page('eter-ios-mobile-options', 'OTO Directory', 'OTO Directory', 0, 'manage_oto_directory', 'otoDirectory' );
+    add_submenu_page('eter-ios-mobile-options', 'OTO Directory', 'OTO Directory', 0, 'manage_oto_directory', 'manageOtoDirectory' );
 }
 function eterMenu() {
     include 'oto-options.php';
@@ -281,7 +281,9 @@ function eterMenu() {
 function eterCourses() {
     include 'oto-courses.php';
 }
-
+function manageOtoDirectory() {
+    include 'oto-directory.php';
+}
 function eterLicences() {
   
   echo '<div class="wrap">';
