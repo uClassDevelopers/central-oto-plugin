@@ -138,6 +138,8 @@ function eter_courses_slider_install_data() {
 //Do the db setup after theme selection 'eter_courses_slider_install', 'eter_courses_slider_install_data'
 register_activation_hook( __FILE__, 'eter_start_install', 'eter_courses_install_data','eter_courses_slider_install', 'eter_courses_slider_install_data' );
 
+wp_register_style('uclass_framework', plugins_url('central-oto-plugin/uclass-framework.css'));
+wp_enqueue_style( 'uclass_framework');
 
 //Setup a widget on dashboard describing css display none classes
 function eter_add_dashboard_widgets() {
@@ -267,16 +269,17 @@ function eter_add_quick_edit($column_name, $post_type) {
 // Sidebar Menu configuration
 add_action('admin_menu', 'addEterMenu');
 function addEterMenu() {
-    add_menu_page('OTO iOS Mobile App Options', 'OTO iOS Mobile App Options', 0, 'eter-ios-mobile-options', 'eterMenu');
-    add_submenu_page('eter-ios-mobile-options', 'OTO Startpage', 'OTO Startpage', 'manage_options', 'eter-ios-mobile-options' );
-    add_submenu_page('eter-ios-mobile-options', 'OTO Courses', 'OTO Courses', 0, 'eter-courses', 'eterCourses' );
-    add_submenu_page('eter-ios-mobile-options', 'OTO Licences', 'OTO Licences', 0, 'eter-Licences', 'eterLicences' );
+    add_menu_page('OTO-APP', 'OTO-APP', 0, 'eter-ios-mobile-options', 'eterMenu');
+    add_submenu_page('eter-ios-mobile-options', 'ETER Startpage', 'ETER Startpage', 'manage_options', 'eter-ios-mobile-options' );
+    add_submenu_page('eter-ios-mobile-options', 'ETER Courses', 'ETER Courses', 0, 'eter-courses', 'eterCourses' );
+    add_submenu_page('eter-ios-mobile-options', 'ETER Licences', 'ETER Licences', 0, 'eter-Licences', 'eterLicences' );
+    add_submenu_page('eter-ios-mobile-options', 'OTO Directory', 'OTO Directory', 0, 'manage_oto_directory', 'otoDirectory' );
 }
 function eterMenu() {
-    include 'eter-options.php';
+    include 'oto-options.php';
 }
 function eterCourses() {
-    include 'eter-courses.php';
+    include 'oto-courses.php';
 }
 
 function eterLicences() {
