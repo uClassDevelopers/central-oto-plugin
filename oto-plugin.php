@@ -16,13 +16,15 @@ $eter_start_db_version = '1.0'; //Set version of table
 //Create the table and colums, also set correct formats on the columns
 function oto_setup_db() {
   global $wpdb;
-  global $eter_start_db_version;
+  global $oto_db_version;
 
-  $table_name = $wpdb->prefix . 'eter_start';
-  
+  $start_table_name = $wpdb->prefix . 'oto_start';
+  $course_slider_table_name = $wpdb->prefix . 'oto_courses_slider';
+  $oto_directory_table_name = $wpdb->prefix . 'oto_directory';
+    
   $charset_collate = $wpdb->get_charset_collate();
 
-  $sql = "CREATE TABLE $table_name (
+  $sql = "CREATE TABLE $start_table_name (
     id int(11) NOT NULL AUTO_INCREMENT,
     row int(11) NOT NULL,
     position int NOT NULL,
@@ -35,14 +37,35 @@ function oto_setup_db() {
     on_link_to_post text NULL,
     on_link_outbound text NULL,
     UNIQUE KEY id (id)
-  ) $charset_collate;";
+  ) $charset_collate;
+  CREATE TABLE $course_slider_table_name (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    row int NOT NULL,
+    postion int NOT NULL,
+    title tinytext NULL,
+    on_link text NULL,
+    course text NULL,
+    image_url text NULL,
+    content text NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;
+  CREATE TABLE $oto_directory_table_name (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    lang tinytext NOT NULL,
+    title tinytext NOT NULL,
+    school_name tinytext NOT NULL,
+    school_id text NOT NULL,
+    activated int(1) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;
+  ";
 
   require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
   dbDelta( $sql );
 
-  add_option( 'eter_start_db_version', $eter_start_db_version );
+  add_option( 'oto_db_version', $oto_db_version );
 
-      $placeholder_row ='1';
+    $placeholder_row ='1';
     $placeholder_position = '1';
     $placeholder_title = 'OTO-iOS!';
     $placeholder_on_link = '#tab/guides';
