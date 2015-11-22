@@ -4,9 +4,9 @@ Plugin Name: OTO Main plugin
 Description: OTO Main plugin
 Version:     0.1
 Author:      Daniel Holm, Adam Jacobs Feldstein
-Author URI:  http://URI_Of_The_Plugin_Author
-License:     GPL2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Author URI:  http://uclass.se
+License:     Apache License Version 2.0
+License URI: http://www.apache.org/licenses/
 */
 
 //Setup eter_start table in wpdb
@@ -135,8 +135,60 @@ function eter_courses_slider_install_data() {
   );
 }
 
+//Setup OTO_Directory table in wpdb
+global $oto_directory_db_version;
+$oto_directory_db_version = '1.0'; //Set version of table
+
+//Create the table and colums, also set correct formats on the columns
+function oto_directory_install() {
+  global $wpdb;
+  global $oto_directory_db_version;
+
+  $table_name = $wpdb->prefix . 'oto_directory';
+  
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $table_name (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    lang tinytext NOT NULL,
+    title tinytext NOT NULL,
+    school_name NOT NULL,
+    school_id text NOT NULL,
+    activated int(1) NOT NULL,
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+
+  require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+  dbDelta( $sql );
+
+  add_option( 'oto_directory_db_version', $oto_directory_db_version );
+}
+
+//Populate the database with startdata
+function oto_directory_install_data() {
+  global $wpdb;
+    $placeholder_lang ='SV';
+    $placeholder_title = 'ETER- En till en Rudbeck';
+    $placeholder_school_name= 'Rudbeck';
+    $placeholder_school_id ='1';
+    $placeholder_activated = '1';
+  
+  $table_name = $wpdb->prefix . 'oto_directory';
+  
+  $wpdb->insert( 
+    $table_name, 
+    array( 
+      'lang' => $placeholder_lang, 
+      'title' => $placeholder_title, 
+      'school_name' => $placeholder_school_name, 
+      'school_id' => $placeholder_school_id, 
+      'activated' => $placeholder_activated, 
+    ) 
+  );
+}
+
 //Do the db setup after theme selection 'eter_courses_slider_install', 'eter_courses_slider_install_data'
-register_activation_hook( __FILE__, 'eter_start_install', 'eter_courses_install_data','eter_courses_slider_install', 'eter_courses_slider_install_data' );
+register_activation_hook( __FILE__, 'eter_start_install', 'eter_courses_install_data','eter_courses_slider_install', 'eter_courses_slider_install_data', 'oto_directory_install', 'oto_directory_install_data' );
 
 wp_register_style('uclass_framework', plugins_url('central-oto-plugin/uclass-framework.css'));
 wp_enqueue_style( 'uclass_framework');
@@ -155,7 +207,7 @@ function eter_dashboard_widget_function() {
 
 // Display whatever you want to tell.
     echo"<p><a href='Gå til OTO-appens inställningar'</a></p>";
-  echo "<p>Det går att dölja innehåll från appen eller webbsidan. Detta görs genom att byta innehållsredigerarens läge från visuell till text, och sedan innefatta innehållen för repsektive plattform inom en lämplig utav dessa: </p><code>&lt;div class='app'&gt; Innehåll &lt/div&gt;  &lt;div class='webb'&gt; Innehåll &lt/div&gt; </code>. <p>'app' visas bara i appen och 'webb' visas bara på webben.</p>";
+    echo "<p>Det går att dölja innehåll från appen eller webbsidan. Detta görs genom att byta innehållsredigerarens läge från visuell till text, och sedan innefatta innehållen för repsektive plattform inom en lämplig utav dessa: </p><code>&lt;div class='app'&gt; Innehåll &lt/div&gt;  &lt;div class='webb'&gt; Innehåll &lt/div&gt; </code>. <p>'app' visas bara i appen och 'webb' visas bara på webben.</p>";
 }
 
 // Add a column to the edit post list
