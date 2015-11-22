@@ -14,7 +14,7 @@ global $eter_start_db_version;
 $eter_start_db_version = '1.0'; //Set version of table
 
 //Create the table and colums, also set correct formats on the columns
-function eter_start_install() {
+function oto_setup_db() {
   global $wpdb;
   global $eter_start_db_version;
 
@@ -25,15 +25,15 @@ function eter_start_install() {
   $sql = "CREATE TABLE $table_name (
     id int(11) NOT NULL AUTO_INCREMENT,
     row int(11) NOT NULL,
-        position int NOT NULL,
+    position int NOT NULL,
     title tinytext NULL,
     on_link text NULL,
-        image_url text NULL,
-        content text NULL,
-        is_dyn int NOT NULL,
-        dyn_link text NULL,
-        on_link_to_post text NULL,
-        on_link_outbound text NULL,
+    image_url text NULL,
+    content text NULL,
+    is_dyn int NOT NULL,
+    dyn_link text NULL,
+    on_link_to_post text NULL,
+    on_link_outbound text NULL,
     UNIQUE KEY id (id)
   ) $charset_collate;";
 
@@ -41,154 +41,27 @@ function eter_start_install() {
   dbDelta( $sql );
 
   add_option( 'eter_start_db_version', $eter_start_db_version );
-}
 
-//Populate the dtabase with startdata
-function eter_start_install_data() {
-  global $wpdb;
-  
-    $placeholder_row ='1';
-  $placeholder_position = '1';
-  $placeholder_title = 'OTO-iOS!';
-    $placeholder_url ='#tab/guides';
+      $placeholder_row ='1';
+    $placeholder_position = '1';
+    $placeholder_title = 'OTO-iOS!';
+    $placeholder_on_link = '#tab/guides';
     $placeholder_image_url = 'http://eter.rudbeck.info/wp-content/uploads/2014/05/ETER-logga_100_overstrykning.png';
     $placeholder_content = 'it is working';
     $placeholder_is_dyn ='0';
-    $placeholder_dyn_link = '';
+    $placeholder_dyn_link = '#';
+    $placeholder_on_link_to_post = '';
+    $placeholder_on_link_outbound = '';
     
   
   $table_name = $wpdb->prefix . 'eter_start';
   
-  $wpdb->insert( 
-    $table_name, 
-    array( 
-      'row' => $placeholder_row, 
-      'position' => $placeholder_position, 
-      'title' => $placeholder_title, 
-      'url' => $placeholder_url, 
-      'image_url' => $placeholder_image_url, 
-      'content' => $placeholder_content, 
-      'is_dyn' => $placeholder_is_dyn, 
-      'dyn_link' => $placeholder_dyn_link, 
-    ) 
-  );
-}
-//Setup eter_start table in wpdb
-global $eter_courses_slider_db_version;
-$eter_courses_slider_db_version = '1.0'; //Set version of table
-
-//Create the table and colums, also set correct formats on the columns
-function eter_courses_slider_install() {
-  global $wpdb;
-  global $eter_courses_slider_db_version;
-
-  $table_name = $wpdb->prefix . 'eter_courses_slider';
-  
-  $charset_collate = $wpdb->get_charset_collate();
-
-  $sql = "CREATE TABLE $table_name (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    row int NOT NULL,
-        postion int NOT NULL,
-    title tinytext NULL,
-    on_link text NULL,
-    course text NULL,
-        image_url text NULL,
-        content text NULL,
-    UNIQUE KEY id (id)
-  ) $charset_collate;";
-
-  require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-  dbDelta( $sql );
-
-  add_option( 'eter_courses_slider_db_version', $eter_courses_slider_db_version );
-}
-
-//Populate the dtabase with startdata
-function eter_courses_slider_install_data() {
-  global $wpdb;
-  
-    $placeholder_row ='1';
-  $placeholder_position = '1';
-  $placeholder_title = 'OTO-iOS!';
-    $placeholder_url ='#tab/guides';
-    $placeholder_image_url = 'http://eter.rudbeck.info/wp-content/uploads/2014/05/ETER-logga_100_overstrykning.png';
-    $placeholder_content = 'it is working';
-    $placeholder_is_dyn ='0';
-    $placeholder_dyn_link = '';
-    
-  
-  $table_name = $wpdb->prefix . 'eter_courses_slider';
-  
-  $wpdb->insert( 
-    $table_name, 
-    array( 
-      'row' => $placeholder_row, 
-      'position' => $placeholder_position, 
-      'title' => $placeholder_title, 
-      'url' => $placeholder_url, 
-      'image_url' => $placeholder_image_url, 
-      'content' => $placeholder_content, 
-      'is_dyn' => $placeholder_is_dyn, 
-      'dyn_link' => $placeholder_dyn_link, 
-    ) 
-  );
-}
-
-//Setup OTO_Directory table in wpdb
-global $oto_directory_db_version;
-$oto_directory_db_version = '1.0'; //Set version of table
-
-//Create the table and colums, also set correct formats on the columns
-function oto_directory_install() {
-  global $wpdb;
-  global $oto_directory_db_version;
-
-  $table_name = $wpdb->prefix . 'oto_directory';
-  
-  $charset_collate = $wpdb->get_charset_collate();
-
-  $sql = "CREATE TABLE $table_name (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    lang tinytext NOT NULL,
-    title tinytext NOT NULL,
-    school_name NOT NULL,
-    school_id text NOT NULL,
-    activated int(1) NOT NULL,
-    UNIQUE KEY id (id)
-  ) $charset_collate;";
-
-  require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-  dbDelta( $sql );
-
-  add_option( 'oto_directory_db_version', $oto_directory_db_version );
-}
-
-//Populate the database with startdata
-function oto_directory_install_data() {
-  global $wpdb;
-    $placeholder_lang ='SV';
-    $placeholder_title = 'ETER- En till en Rudbeck';
-    $placeholder_school_name= 'Rudbeck';
-    $placeholder_school_id ='1';
-    $placeholder_activated = '1';
-  
-  $table_name = $wpdb->prefix . 'oto_directory';
-  
-  $wpdb->insert( 
-    $table_name, 
-    array( 
-      'lang' => $placeholder_lang, 
-      'title' => $placeholder_title, 
-      'school_name' => $placeholder_school_name, 
-      'school_id' => $placeholder_school_id, 
-      'activated' => $placeholder_activated, 
-    ) 
-  );
+  $wpdb->insert( $table_name, array( 'row' => 33, 'title' => 'aa'), array( '%d', '%s' ));
+  $wpdb->show_errors();
 }
 
 //Do the db setup after theme selection 'eter_courses_slider_install', 'eter_courses_slider_install_data'
-register_activation_hook( __FILE__, 'eter_start_install', 'eter_courses_install_data','eter_courses_slider_install', 'eter_courses_slider_install_data', 'oto_directory_install', 'oto_directory_install_data' );
+register_activation_hook( __FILE__, 'oto_setup_db');
 
 wp_register_style('uclass_framework', plugins_url('central-oto-plugin/uclass-framework.css'));
 wp_enqueue_style( 'uclass_framework');
@@ -376,5 +249,4 @@ function eterLicences() {
 
 }
 //Remove comment when development/ testing
-//$wpdb->show_errors(); 
 ?>
