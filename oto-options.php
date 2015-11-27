@@ -17,7 +17,7 @@ limitations under the License.
 
 //Set connection to wpdb and needed variables
 global $wpdb;
-$table_name = $wpdb->prefix . 'eter_start';
+$table_name = $wpdb->prefix . 'oto_start';
 
 //Insert updated content in to database
 if(!empty($_POST)) {

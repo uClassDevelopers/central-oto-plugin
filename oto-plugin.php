@@ -64,9 +64,13 @@ function oto_setup_db() {
   dbDelta( $sql );
 
   add_option( 'oto_db_version', $oto_db_version );
-
-    $placeholder_row ='1';
-    $placeholder_position = '1';
+  
+  $table_name = $wpdb->prefix . 'oto_start';
+  
+  for($i=0; $i< 6; $i++) {
+  if($i < 3) { $row=1;} else{ $row = 2;}
+    $placeholder_row = $row;
+    $placeholder_position = $i+1;
     $placeholder_title = 'OTO-iOS!';
     $placeholder_on_link = '#tab/guides';
     $placeholder_image_url = 'http://eter.rudbeck.info/wp-content/uploads/2014/05/ETER-logga_100_overstrykning.png';
@@ -76,11 +80,16 @@ function oto_setup_db() {
     $placeholder_on_link_to_post = '';
     $placeholder_on_link_outbound = '';
     
+    $wpdb->insert( $table_name, array( 'row' => $placeholder_row, 'position' =>  $placeholder_position, 
+    									'title' =>  $placeholder_title, 'on_link' =>  $placeholder_on_link, 
+    									'image_url' =>  $placeholder_image_url, 'content' =>  $placeholder_content, 
+    									'is_dyn' =>  $placeholder_is_dyn , 'dyn_link' =>  $placeholder_dyn_link, 
+    									'on_link_to_post' =>  $on_link_to_post, 'on_link_outbound' =>  $placeholder_on_link_outbound), 
+    									array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' ));  
+    									
+  }
   
-  $table_name = $wpdb->prefix . 'eter_start';
-  
-  $wpdb->insert( $table_name, array( 'row' => 33, 'title' => 'aa'), array( '%d', '%s' ));
-  $wpdb->show_errors();
+  //$wpdb->show_errors();
 }
 
 //Do the db setup after theme selection 'eter_courses_slider_install', 'eter_courses_slider_install_data'
@@ -102,7 +111,6 @@ add_action( 'wp_dashboard_setup', 'eter_add_dashboard_widgets' );
 function eter_dashboard_widget_function() {
 
 // Display whatever you want to tell.
-    echo"<p><a href='Gå til OTO-appens inställningar'</a></p>";
     echo "<p>Det går att dölja innehåll från appen eller webbsidan. Detta görs genom att byta innehållsredigerarens läge från visuell till text, och sedan innefatta innehållen för repsektive plattform inom en lämplig utav dessa: </p><code>&lt;div class='app'&gt; Innehåll &lt/div&gt;  &lt;div class='webb'&gt; Innehåll &lt/div&gt; </code>. <p>'app' visas bara i appen och 'webb' visas bara på webben.</p>";
 }
 
